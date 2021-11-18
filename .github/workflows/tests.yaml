@@ -1,19 +1,44 @@
 name: Run all CI tests
-on: [pull_request]
+on: [push, pull_request]
 
 jobs:
   run_all_tests:
     runs-on: ubuntu-latest
     name: Build IODA, EMCPy, and plotioda, and run all tests.
     container: jcsda/docker-gnu-openmpi-dev
+    steps:
 
-   steps:
+    - name: cache-ioda
+      id: cache-ioda
+      uses: actions/cache@v2
+      with:
+        path: $GITHUB_WORKSPACE/ioda
+        key: ioda-develop-20211118-${{ runner.os }}-jcsda-docker
 
-   - name: Build IODA
-     run: |
-       cd $GITHUB_WORKSPACE
-       git clone https://github.com/JCSDA/fv3-bundle.git
-       mkdir build
-       cd build
-       ecbuild ../fv3-bundle
+    - name: build-ioda
+      if: steps.cache-ioda.outputs.cache-hit != 'true'
+      run: |
+        cd $GITHUB_WORKSPACE
+        mkdir ioda
+        cd ioda
+        wget https://raw.githubusercontent.com/CoryMartin-NOAA/JEDI-T2O/main/bundles/ioda/CMakeLists.txt 
+        mkdir build
+        cd build
+        ecbuild ..
+        make -j2
       
+    - name: install-emcpy-dependencies
+      run: |
+        apt-get update
+        apt-get -y install libproj-dev proj-data proj-bin
+        apt-get -y install libgeos-dev musl-dev libc-dev
+        ln -s /usr/lib/x86_64-linux-musl/libc.so /lib/libc.musl-x86_64.so.1
+        pip install --upgrade pip
+        pip install Shapely
+
+    - name: install-emcpy
+      run: |
+        cd $GITHUB_WORKSPACE
+        git clone https://github.com/noaa-emc/emcpy.git
+        cd $GITHUB_WORKSPACE/emcpy
+        pip install .
