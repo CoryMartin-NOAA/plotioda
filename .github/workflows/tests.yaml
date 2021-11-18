@@ -29,6 +29,9 @@ jobs:
       
     - name: install-emcpy-dependencies
       run: |
+        apt-get update
+        apt-get install libproj-dev proj-data proj-bin
+        apt-get install libgeos-dev musl-dev libc-dev
         pip install --upgrade pip
         pip install Shapely
 
