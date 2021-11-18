@@ -26,7 +26,6 @@ jobs:
         cd build
         ecbuild ..
         make -j2
-        ctest
       
     - name: install-emcpy-dependencies
       run: |
