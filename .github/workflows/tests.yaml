@@ -36,7 +36,6 @@ jobs:
         pip install --upgrade pip
         pip install pytest
         pip install pdoc
-        pip install pycodestyle
         pip install Shapely
 
     - name: Install EMCPy Develop
