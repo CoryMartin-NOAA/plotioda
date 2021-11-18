@@ -11,9 +11,13 @@ jobs:
     - name: Build IODA
       run: |
         cd $GITHUB_WORKSPACE
-        git clone https://github.com/JCSDA/fv3-bundle.git
+        mkdir ioda-bundle
+        cd ioda-bundle
+        wget https://github.com/CoryMartin-NOAA/JEDI-T2O/blob/main/bundles/ioda/CMakeLists.txt
+        cd ..
         mkdir build
         cd build
-        ecbuild ../fv3-bundle
+        ecbuild ../ioda-bundle
         make -j2
+        ctest
       
