@@ -13,7 +13,7 @@ jobs:
         cd $GITHUB_WORKSPACE
         mkdir ioda-bundle
         cd ioda-bundle
-        wget https://github.com/CoryMartin-NOAA/JEDI-T2O/blob/main/bundles/ioda/CMakeLists.txt
+        wget https://raw.githubusercontent.com/CoryMartin-NOAA/JEDI-T2O/main/bundles/ioda/CMakeLists.txt 
         cd ..
         mkdir build
         cd build
