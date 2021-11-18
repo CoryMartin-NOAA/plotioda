@@ -1,5 +1,5 @@
 name: Run all CI tests
-on: [push, pull_request]
+on: [pull_request]
 
 jobs:
   run_all_tests:
@@ -63,5 +63,5 @@ jobs:
     
     - name: Run Unit Tests
       run: |
-        cd $GITHUB_WORKSPACE/emcpy
+        cd $GITHUB_WORKSPACE/plotioda
         pytest -v src/tests
