@@ -1,0 +1,20 @@
+name: Run all CI tests
+on: [pull_request]
+
+jobs:
+  run_all_tests:
+    runs-on: ubuntu-latest
+    name: Build IODA, EMCPy, and plotioda, and run all tests.
+    container:
+      image: jcsda/docker-gnu-openmpi-dev
+
+   steps:
+
+   - name: Build IODA
+     run: |
+       cd $GITHUB_WORKSPACE
+       git clone https://github.com/JCSDA/fv3-bundle.git
+       mkdir build
+       cd build
+       ecbuild ../fv3-bundle
+      
