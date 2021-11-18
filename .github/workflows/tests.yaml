@@ -36,6 +36,7 @@ jobs:
         pip install --upgrade pip
         pip install pytest
         pip install pdoc
+        pip install pycodestyle
         pip install Shapely
 
     - name: install-emcpy
@@ -44,3 +45,23 @@ jobs:
         git clone https://github.com/noaa-emc/emcpy.git
         cd $GITHUB_WORKSPACE/emcpy
         pip install .
+        
+    - name: checkout-plotioda
+      uses: actions/checkout@v2
+      with:
+        path: plotioda
+    
+    - name: install-plotioda
+      run: |
+        cd $GITHUB_WORKSPACE/plotioda
+        pip install .
+    
+    - name: norms-plotioda
+      run: |
+        cd $GITHUB_WORKSPACE/plotioda
+        pycodestyle -v --config ./.pycodestyle .
+    
+    - name: tests-plotioda
+      run: |
+        cd $GITHUB_WORKSPACE/emcpy
+        pytest -v src/tests
