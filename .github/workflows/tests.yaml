@@ -15,4 +15,5 @@ jobs:
         mkdir build
         cd build
         ecbuild ../fv3-bundle
+        make -j2
       
