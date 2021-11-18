@@ -34,6 +34,8 @@ jobs:
         apt-get -y install libgeos-dev musl-dev libc-dev
         ln -s /usr/lib/x86_64-linux-musl/libc.so /lib/libc.musl-x86_64.so.1
         pip install --upgrade pip
+        pip install pytest
+        pip install pdoc
         pip install Shapely
 
     - name: install-emcpy
