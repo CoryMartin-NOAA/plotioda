@@ -24,7 +24,7 @@ jobs:
         cd ..
         mkdir build
         cd build
-        ecbuild -DCMAKE_INSTALL_PREFIX=/optjedi ../src
+        ecbuild ../src
         make -j2
       
     - name: Install EMCPy Dependencies
@@ -60,10 +60,10 @@ jobs:
         cd $GITHUB_WORKSPACE/plotioda
         pycodestyle -v --config ./.pycodestyle .
     
-#    - name: Run Unit Tests
-#      run: |
-#        cd $GITHUB_WORKSPACE/plotioda
-#        echo $PYTHONPATH
-#        export PYTHONPATH=$PYTHONPATH:~/ioda/build/lib/python3.8/pyioda
-#        echo $PYTHONPATH
-#        pytest -v src/tests
+    - name: Run Unit Tests
+      run: |
+        cd $GITHUB_WORKSPACE/plotioda
+        echo $PYTHONPATH
+        export PYTHONPATH=$PYTHONPATH:~/ioda/build/lib/python3.8/pyioda
+        echo $PYTHONPATH
+        pytest -v src/tests
