@@ -63,15 +63,5 @@ jobs:
     - name: Run Unit Tests
       run: |
         cd $GITHUB_WORKSPACE/plotioda
-        echo $PYTHONPATH
-        cd ~/ioda/build/lib/python3.8/pyioda
-        pwd
-        cd ~
-        pwd
-        cd $GITHUB_WORKSPACE/plotioda
-        export PYTHONPATH=$PYTHONPATH:~/ioda/build/lib/python3.8/pyioda
-        ls -l ~/ioda/build/lib/python3.8/pyioda
-        ls -l ~/ioda/build/lib/python3.8/pyioda/ioda_obs_space
-        echo $PYTHONPATH
-        python -c 'import sys; print(sys.path)'
+        export PYTHONPATH=$PYTHONPATH:/github/home/ioda/build/lib/python3.8/pyioda
         pytest -v src/tests
