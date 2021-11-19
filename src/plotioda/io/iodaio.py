@@ -28,23 +28,25 @@ class IODA:
         """
         _var = self.obsspace.Variable(varname=vname, groupname=gname)
         data = _var.read_data()
-        
+
         return data
+
 
 """
 # currently not in IODA develop
-#     def get_var_attr(self, vname, gname, attrname): 
-#         """
+#     def get_var_attr(self, vname, gname, attrname):
+#         ""
 #         Grab specified variable attribute from IODA ObsSpace
-#         
+#
 #         Args:
 #             vname: string of variable name
 #             gname: string of group name
 #             attrname: string of attribute name
-#         """
+#         ""
 #         _var = self.obsspace.Variable(varname=vname, groupname=gname)
-#         
+#
 #         attr = _var.read_attr(attrname)
-#         
+#
 #         return attr
 """
+# nothing here
