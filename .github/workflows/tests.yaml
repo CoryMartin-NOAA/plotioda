@@ -12,8 +12,8 @@ jobs:
       id: cache-ioda
       uses: actions/cache@v2
       with:
-        path: $GITHUB_WORKSPACE/ioda/build
-        key: ioda-develop-20211119-3-${{ runner.os }}-jcsda-docker
+        path: /optjedi/lib
+        key: ioda-develop-20211119-4-${{ runner.os }}-jcsda-docker
 
     - name: Build IODA Bundle Develop
       if: steps.cache-ioda.outputs.cache-hit != 'true'
@@ -25,7 +25,7 @@ jobs:
         cd ..
         mkdir build
         cd build
-        ecbuild ../src
+        ecbuild -DCMAKE_INSTALL_PREFIX=/optjedi ../src
         make -j2
         make install
       
@@ -66,6 +66,6 @@ jobs:
       run: |
         cd $GITHUB_WORKSPACE/plotioda
         echo $PYTHONPATH
-        export PYTHONPATH=$PYTHONPATH:$GITHUB_WORKSPACE/ioda/build/lib/python3.8/pyioda/
+        export PYTHONPATH=$PYTHONPATH:/optjedi/lib/python3.8/pyioda/
         echo $PYTHONPATH
         pytest -v src/tests
