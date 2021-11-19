@@ -12,20 +12,22 @@ jobs:
       id: cache-ioda
       uses: actions/cache@v2
       with:
-        path: $GITHUB_WORKSPACE/ioda
-        key: ioda-develop-20211119-2-${{ runner.os }}-jcsda-docker
+        path: $GITHUB_WORKSPACE/ioda/build
+        key: ioda-develop-20211119-3-${{ runner.os }}-jcsda-docker
 
     - name: Build IODA Bundle Develop
       if: steps.cache-ioda.outputs.cache-hit != 'true'
       run: |
         cd $GITHUB_WORKSPACE
-        mkdir ioda
-        cd ioda
+        mkdir -p ioda/src
+        cd ioda/src
         wget https://raw.githubusercontent.com/CoryMartin-NOAA/JEDI-T2O/main/bundles/ioda/CMakeLists.txt 
+        cd ..
         mkdir build
         cd build
-        ecbuild ..
+        ecbuild ../src
         make -j2
+        make install
       
     - name: Install EMCPy Dependencies
       run: |
