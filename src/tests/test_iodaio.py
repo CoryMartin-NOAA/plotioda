@@ -20,7 +20,7 @@ def test_ioda_read_data():
     # do some sanity checks
     if (lats.shape != (100,)):
         sys.exit(1)
-    if (tb.shape != (100,15)):
+    if (tb.shape != (100, 15)):
         sys.exit(1)
     if (abs(np.nanmin(tb) - 202.71) > 0.1):
         sys.exit(1)
