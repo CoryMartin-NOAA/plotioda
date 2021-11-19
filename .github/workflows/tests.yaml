@@ -8,7 +8,7 @@ jobs:
     container: jcsda/docker-gnu-openmpi-dev
     steps:
 
-    - name: Cache IODA Bundle Develop
+    - name: Cache IODA Lib Develop
       id: cache-ioda
       uses: actions/cache@v2
       with:
@@ -66,6 +66,6 @@ jobs:
       run: |
         cd $GITHUB_WORKSPACE/plotioda
         echo $PYTHONPATH
-        export PYTHONPATH=$PYTHONPATH:/optjedi/lib/python3.8/pyioda/
+        export PYTHONPATH=$PYTHONPATH:/optjedi/lib/python3.8/
         echo $PYTHONPATH
         pytest -v src/tests
