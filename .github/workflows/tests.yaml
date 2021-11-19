@@ -65,5 +65,8 @@ jobs:
         cd $GITHUB_WORKSPACE/plotioda
         echo $PYTHONPATH
         export PYTHONPATH=$PYTHONPATH:~/ioda/build/lib/python3.8/pyioda
+        ls -l ~/ioda/build/lib/
+        ls -l ~/ioda/build/lib/python3.8
+        ls -l ~/ioda/build/lib/python3.8/pyioda
         echo $PYTHONPATH
         pytest -v src/tests
