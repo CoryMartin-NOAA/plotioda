@@ -12,7 +12,7 @@ def run_plotioda(yaml):
     Args:
         yaml: (path to YAML input configuration)
     """
-    
+    print(yaml)
 
 if __name__ == '__main__':
     run_plotioda()
