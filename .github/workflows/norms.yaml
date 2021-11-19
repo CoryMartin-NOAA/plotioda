@@ -1,0 +1,23 @@
+name: Check Coding Norms
+on: [push]
+
+jobs:
+  run_norms:
+    runs-on: ubuntu-latest
+    name: Check Coding Norms
+    steps:
+
+    - name: Install dependencies
+      run: |
+        pip install --upgrade pip
+        pip install pycodestyle
+
+    - name: Checkout
+      uses: actions/checkout@v2
+      with:
+        path: plotioda
+
+    - name: Run pycodestyle
+      run: |
+        cd $GITHUB_WORKSPACE/plotioda
+        pycodestyle -v --config ./.pycodestyle .

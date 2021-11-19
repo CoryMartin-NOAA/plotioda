@@ -1,21 +1,21 @@
 name: Run all CI tests
-on: [push, pull_request]
+on: [pull_request]
 
 jobs:
   run_all_tests:
     runs-on: ubuntu-latest
-    name: Build IODA, EMCPy, and plotioda, and run all tests.
+    name: Full CI (style and tests)
     container: jcsda/docker-gnu-openmpi-dev
     steps:
 
-    - name: cache-ioda
+    - name: Cache IODA Bundle Develop
       id: cache-ioda
       uses: actions/cache@v2
       with:
         path: $GITHUB_WORKSPACE/ioda
         key: ioda-develop-20211118-${{ runner.os }}-jcsda-docker
 
-    - name: build-ioda
+    - name: Build IODA Bundle Develop
       if: steps.cache-ioda.outputs.cache-hit != 'true'
       run: |
         cd $GITHUB_WORKSPACE
@@ -27,7 +27,7 @@ jobs:
         ecbuild ..
         make -j2
       
-    - name: install-emcpy-dependencies
+    - name: Install EMCPy Dependencies
       run: |
         apt-get update
         apt-get -y install libproj-dev proj-data proj-bin
@@ -38,9 +38,29 @@ jobs:
         pip install pdoc
         pip install Shapely
 
-    - name: install-emcpy
+    - name: Install EMCPy Develop
       run: |
         cd $GITHUB_WORKSPACE
         git clone https://github.com/noaa-emc/emcpy.git
         cd $GITHUB_WORKSPACE/emcpy
         pip install .
+        
+    - name: Checkout
+      uses: actions/checkout@v2
+      with:
+        path: plotioda
+    
+    - name: Install
+      run: |
+        cd $GITHUB_WORKSPACE/plotioda
+        pip install .
+    
+    - name: Check Coding Norms
+      run: |
+        cd $GITHUB_WORKSPACE/plotioda
+        pycodestyle -v --config ./.pycodestyle .
+    
+    - name: Run Unit Tests
+      run: |
+        cd $GITHUB_WORKSPACE/plotioda
+        pytest -v src/tests
