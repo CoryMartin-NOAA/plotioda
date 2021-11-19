@@ -63,6 +63,8 @@ jobs:
     - name: Run Unit Tests
       run: |
         cd $GITHUB_WORKSPACE/plotioda
+        ls -l $GITHUB_WORKSPACE
+        ls -l $GITHUB_WORKSPACE/ioda
         ls -l $GITHUB_WORKSPACE/ioda/build
         ls -l $GITHUB_WORKSPACE/ioda/build/lib
         ls -l $GITHUB_WORKSPACE/ioda/build/lib/python3.8
