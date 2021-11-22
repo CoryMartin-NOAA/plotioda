@@ -8,23 +8,23 @@ jobs:
     container: jcsda/docker-gnu-openmpi-dev
     steps:
 
-    - name: Cache IODA Bundle Develop
+    - name: Cache IODA Lib Develop
       id: cache-ioda
       uses: actions/cache@v2
       with:
-        path: $GITHUB_WORKSPACE/ioda
-        key: ioda-develop-20211118-${{ runner.os }}-jcsda-docker
+        path: ~/ioda/build/lib
+        key: ioda-develop-20211119-5-${{ runner.os }}-jcsda-docker
 
     - name: Build IODA Bundle Develop
       if: steps.cache-ioda.outputs.cache-hit != 'true'
       run: |
-        cd $GITHUB_WORKSPACE
-        mkdir ioda
-        cd ioda
+        mkdir -p ~/ioda/src
+        cd ~/ioda/src
         wget https://raw.githubusercontent.com/CoryMartin-NOAA/JEDI-T2O/main/bundles/ioda/CMakeLists.txt 
+        cd ..
         mkdir build
         cd build
-        ecbuild ..
+        ecbuild ../src
         make -j2
       
     - name: Install EMCPy Dependencies
@@ -63,4 +63,5 @@ jobs:
     - name: Run Unit Tests
       run: |
         cd $GITHUB_WORKSPACE/plotioda
+        export PYTHONPATH=$PYTHONPATH:/github/home/ioda/build/lib/python3.8/pyioda
         pytest -v src/tests
