@@ -1,0 +1,9 @@
+ioda file: src/tests/inputs/amsua_aqua_obs_2018041500.nc4
+plots:
+- type: map_scatter
+  domain: global
+  variable: brightness_temperature
+  group: ObsValue
+  channel: 1
+  stats: true
+  outfile: ./src/tests/amsua_aqua_ch1_obs_global.png
