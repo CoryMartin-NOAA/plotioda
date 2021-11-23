@@ -1,5 +1,6 @@
 import yaml
 
+
 def get_config(yamlfile):
     """
     Args:
@@ -7,5 +8,5 @@ def get_config(yamlfile):
     """
     with open(yamlfile, 'r') as file:
         config = yaml.load(file, Loader=yaml.FullLoader)
-    
+
     return config
