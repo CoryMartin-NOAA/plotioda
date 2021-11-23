@@ -1,7 +1,7 @@
 import os
 
 
-def get_full_path(filepath)
+def get_full_path(filepath):
     """
     Returns absolute path of file regardless of if
     user YAML input contains absolute or relative path.
