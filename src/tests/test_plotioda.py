@@ -1,13 +1,10 @@
-import numpy as np
-import matplotlib.pyplot as plt
-from emcpy.plots import CreateMap
-from emcpy.plots.map_tools import Domain, MapProjection
-from emcpy.plots.map_plots import MapScatter, MapGridded
+import matplotlib
+matplotlib.use('agg')
 import plotioda.io as io
 import plotioda.configuration as piconfig
 import plotioda.utils as piutils
+import plotioda.plots as piplots
 import os
-import sys
 
 
 def test_plotioda_full():
@@ -20,4 +17,24 @@ def test_plotioda_full():
 
     # get configuration from YAML
     config = piconfig.get_config(yamlfile)
-    print(config)
+
+    # this test assumes only one plot will be generated
+    # first make sure the YAML is as expected
+    iodafile = piutils.get_full_path(config['ioda file'])
+    all_plots = config['plots']
+    if len(all_plots) != 1:
+       raise ValueError("YAML issue: total number of all plots != 1")
+    for plot in all_plots: # should only be one to loop through
+        # check a few variables, not all
+        if plot['type'] != 'map_scatter':
+            raise ValueError("YAML issue: type should be 'map_scatter'")
+        if plot['channel'] != 1:
+            raise ValueError("YAML issue: channel should be 1")
+        if not plot['stats']:
+            raise ValueError("YAML issue: stats should be true")
+        # now grab the necessary data
+        obsspace = io.IODA(iodafile, name='Test Obs Space')
+        # call the factory and generate the plot based on the config
+        myfig = piplots.gen_figure(plot, obsspace)
+        myfig.savefig(piutils.get_full_path(plot['outfile']))
+
