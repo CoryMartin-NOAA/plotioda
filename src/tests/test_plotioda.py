@@ -23,8 +23,8 @@ def test_plotioda_full():
     iodafile = piutils.get_full_path(config['ioda file'])
     all_plots = config['plots']
     if len(all_plots) != 1:
-       raise ValueError("YAML issue: total number of all plots != 1")
-    for plot in all_plots: # should only be one to loop through
+        raise ValueError("YAML issue: total number of all plots != 1")
+    for plot in all_plots:  # should only be one to loop through
         # check a few variables, not all
         if plot['type'] != 'map_scatter':
             raise ValueError("YAML issue: type should be 'map_scatter'")
@@ -37,4 +37,3 @@ def test_plotioda_full():
         # call the factory and generate the plot based on the config
         myfig = piplots.gen_figure(plot, obsspace)
         myfig.savefig(piutils.get_full_path(plot['outfile']))
-
