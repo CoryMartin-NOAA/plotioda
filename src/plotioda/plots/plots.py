@@ -6,6 +6,7 @@ from emcpy.plots.map_tools import Domain, MapProjection
 
 __all__ = ['gen_figure']
 
+
 def gen_figure(plot, obsspace):
     """
     factory to generate figure depending on type of plot
@@ -24,6 +25,7 @@ def gen_figure(plot, obsspace):
     fig = plot_types[plot['type']](plot, obsspace)
 
     return fig
+
 
 def _map_scatter(plot, obsspace):
     # plot a variable on a map
