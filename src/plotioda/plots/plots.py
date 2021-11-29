@@ -31,3 +31,4 @@ def _map_scatter(plot, obsspace):
     # plot a variable on a map
     print(plot)
     print(obsspace)
+    return plt.figure()

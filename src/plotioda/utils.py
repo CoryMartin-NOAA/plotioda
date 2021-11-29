@@ -15,11 +15,11 @@ def get_full_path(filepath):
     cwd = os.getcwd()
     cwdpath = os.path.join(cwd, filepath)
 
-    if os.path.exists(filepath):
+    if os.path.exists(os.path.dirname(filepath)):
         fullpath = filepath
-    elif os.path.exists(cwdpath):
+    elif os.path.exists(os.path.dirname(cwdpath)):
         fullpath = cwdpath
     else:
-        raise OSError("File not found.")
+        raise OSError("Not a valid path.")
 
     return fullpath
