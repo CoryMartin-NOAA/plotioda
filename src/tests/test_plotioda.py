@@ -28,8 +28,8 @@ def test_plotioda_full():
         # check a few variables, not all
         if plot['type'] != 'map_scatter':
             raise ValueError("YAML issue: type should be 'map_scatter'")
-        if plot['channel'] != 1:
-            raise ValueError("YAML issue: channel should be 1")
+        if plot['channel'] != 3:
+            raise ValueError("YAML issue: channel should be 3")
         if not plot['stats']:
             raise ValueError("YAML issue: stats should be true")
         # now grab the necessary data

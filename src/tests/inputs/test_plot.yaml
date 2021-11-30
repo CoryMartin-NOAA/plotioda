@@ -4,6 +4,9 @@ plots:
   domain: global
   variable: brightness_temperature
   group: ObsValue
-  channel: 1
+  channel: 3
   stats: true
-  outfile: ./src/tests/amsua_aqua_ch1_obs_global.png
+  outfile: ./src/tests/amsua_aqua_ch3_obs_global.png
+  title: 'AMSU-A Aqua Brightness Temperature Ch. 3'
+  cycle string: '2018041500'
+  colorbar label: 'brightness temperature (K)'
