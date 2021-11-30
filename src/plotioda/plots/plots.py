@@ -64,7 +64,7 @@ def _map_scatter(plot, obsspace):
 
     # add a lat/lon grid if requested
     if 'grid' in plot and plot['grid']:
-        mymap.add_grid()
+        mymap.add_grid(linewidth=0.5, color='grey', linestyle='--')
 
     # add stats to the plot if requested
     if 'stats' in plot and plot['stats']:
