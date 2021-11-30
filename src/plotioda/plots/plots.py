@@ -78,6 +78,7 @@ def _map_scatter(plot, obsspace):
 
     return mymap.return_figure()
 
+
 def _gen_map_df(plot, obsspace):
     # grab lat, lon, and requested variable
     df_dict = {}
@@ -98,6 +99,7 @@ def _gen_map_df(plot, obsspace):
 
     return df
 
+
 def _get_indexed_channels(obsspace):
     """
     Grab list of all channels from obs space.
@@ -106,6 +108,7 @@ def _get_indexed_channels(obsspace):
     chansCoords = [int(i) for i in chansCoords]
 
     return chansCoords
+
 
 def _get_data(obsspace, variable):
     """
@@ -117,6 +120,7 @@ def _get_data(obsspace, variable):
 
     return data
 
+
 def _get_var_units(obsspace, variable):
     """
     Grabs units attribute from the requested variable
@@ -125,4 +129,3 @@ def _get_var_units(obsspace, variable):
     units = var.read_attr('units')
 
     return units
-
