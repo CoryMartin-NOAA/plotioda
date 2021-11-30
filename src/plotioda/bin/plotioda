@@ -1,18 +1,38 @@
 #!/usr/bin/env python3
 # plotioda executable script
 import click
-import plotioda
+import matplotlib
+matplotlib.use('agg')
+import plotioda.utils as piutils
+import plotioda.plots as piplots
+import plotioda.configuration as piconfig
+import plotioda.io as io
 
 @click.command()
 @click.argument('yaml', type=click.Path(exists=True))
 def run_plotioda(yaml):
     """
     High level function that calls plotioda functions to produce figures.
-    
+
     Args:
         yaml: (path to YAML input configuration)
     """
-    print(yaml)
+    yamlfile = piutils.get_full_path(yaml)
+
+    # get configuration from YAML
+    config = piconfig.get_config(yamlfile)
+
+    # get IODA file path and list of plots from YAML
+    iodafile = piutils.get_full_path(config['ioda file'])
+    all_plots = config['plots']
+
+    # open up the obs space
+    obsspace = io.IODA(iodafile)
+
+    # loop through specified plots
+    for plot in all_plots:
+        myfig = piplots.gen_figure(plot, obsspace)
+        myfig.savefig(piutils.get_full_path(plot['outfile']))
 
 if __name__ == '__main__':
     run_plotioda()
