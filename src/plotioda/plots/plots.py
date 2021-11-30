@@ -32,7 +32,6 @@ def _map_scatter(plot, obsspace):
     # plot a variable on a map
     # get map dataframe
     df = _gen_map_df(plot, obsspace)
-    print(df)
 
     # define map domain/projection based off of YAML
     domain = Domain(plot.get('domain', 'global'))
