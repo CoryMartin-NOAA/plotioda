@@ -82,7 +82,7 @@ def _gen_map_df(plot, obsspace):
     # grab lat, lon, and requested variable
     df_dict = {}
     df_dict['latitude'] = obsspace.get_var('latitude', 'MetaData')
-    df_dict['longitude'] = obsspace.get_var('latitude', 'MetaData')
+    df_dict['longitude'] = obsspace.get_var('longitude', 'MetaData')
     data = obsspace.get_var(plot['variable'], plot['group'])
     if plot['variable'] == 'brightness_temperature' and 'channel' in plot:
         # this is getting a brightness temperature channel
