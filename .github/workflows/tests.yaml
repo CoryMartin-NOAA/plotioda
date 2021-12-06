@@ -13,7 +13,7 @@ jobs:
       uses: actions/cache@v2
       with:
         path: ~/ioda/build/lib
-        key: ioda-develop-20211119-5-${{ runner.os }}-jcsda-docker
+        key: ioda-develop-20211206-${{ runner.os }}-jcsda-docker
 
     - name: Build IODA Bundle Develop
       if: steps.cache-ioda.outputs.cache-hit != 'true'
