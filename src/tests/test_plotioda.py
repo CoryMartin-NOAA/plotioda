@@ -1,6 +1,5 @@
 import matplotlib
 matplotlib.use('agg')
-import plotioda.io as io
 import plotioda.configuration as piconfig
 import plotioda.utils as piutils
 import plotioda.plots as piplots
@@ -31,9 +30,6 @@ def test_plotioda_full():
             raise ValueError("YAML issue: channel should be 3")
         if not plot['stats']:
             raise ValueError("YAML issue: stats should be true")
-        iodafile = piutils.get_full_path(plot['ioda file'])
-        # now grab the necessary data
-        obsspace = io.IODA(iodafile, name='Test Obs Space')
         # call the factory and generate the plot based on the config
-        myfig = piplots.gen_figure(plot, obsspace)
+        myfig = piplots.gen_figure(plot)
         myfig.savefig(piutils.get_full_path(plot['outfile']))
