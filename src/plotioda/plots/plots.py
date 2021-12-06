@@ -4,17 +4,18 @@ from emcpy.plots.plots import Scatter
 from emcpy.plots.map_plots import MapScatter
 from emcpy.plots import CreateMap, CreatePlot, VariableSpecs
 from emcpy.plots.map_tools import Domain, MapProjection
+import plotioda.utils as piutils
+import plotioda.io as io
 
 __all__ = ['gen_figure']
 
 
-def gen_figure(plot, obsspace):
+def gen_figure(plot):
     """
     factory to generate figure depending on type of plot
 
     Args:
         plot: dictionary containing configuration
-        obsspace: IODA Python ObsSpace object
 
     Returns:
         fig: matplotlib figure object
@@ -23,13 +24,19 @@ def gen_figure(plot, obsspace):
         'map_scatter': _map_scatter,
     }
 
-    fig = plot_types[plot['type']](plot, obsspace)
+    fig = plot_types[plot['type']](plot)
 
     return fig
 
 
-def _map_scatter(plot, obsspace):
+def _map_scatter(plot):
     # plot a variable on a map
+    # get IODA file path
+    iodafile = piutils.get_full_path(plot['ioda file'])
+
+    # open up the obsspace
+    obsspace = io.IODA(iodafile)
+
     # get map dataframe
     df = _gen_map_df(plot, obsspace)
 
@@ -75,6 +82,7 @@ def _map_scatter(plot, obsspace):
         }
         mymap.add_stats_dict(stats_dict=stats_dict)
 
+    del obsspace
     return mymap.return_figure()
 
 

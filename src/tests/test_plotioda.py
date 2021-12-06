@@ -20,7 +20,6 @@ def test_plotioda_full():
 
     # this test assumes only one plot will be generated
     # first make sure the YAML is as expected
-    iodafile = piutils.get_full_path(config['ioda file'])
     all_plots = config['plots']
     if len(all_plots) != 1:
         raise ValueError("YAML issue: total number of all plots != 1")
@@ -32,6 +31,7 @@ def test_plotioda_full():
             raise ValueError("YAML issue: channel should be 3")
         if not plot['stats']:
             raise ValueError("YAML issue: stats should be true")
+        iodafile = piutils.get_full_path(plot['ioda file'])
         # now grab the necessary data
         obsspace = io.IODA(iodafile, name='Test Obs Space')
         # call the factory and generate the plot based on the config

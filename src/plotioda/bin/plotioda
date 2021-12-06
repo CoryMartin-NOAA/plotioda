@@ -6,7 +6,6 @@ matplotlib.use('agg')
 import plotioda.utils as piutils
 import plotioda.plots as piplots
 import plotioda.configuration as piconfig
-import plotioda.io as io
 
 @click.command()
 @click.argument('yaml', type=click.Path(exists=True))
@@ -22,16 +21,12 @@ def run_plotioda(yaml):
     # get configuration from YAML
     config = piconfig.get_config(yamlfile)
 
-    # get IODA file path and list of plots from YAML
-    iodafile = piutils.get_full_path(config['ioda file'])
+    # get list of plots from YAML
     all_plots = config['plots']
-
-    # open up the obs space
-    obsspace = io.IODA(iodafile)
 
     # loop through specified plots
     for plot in all_plots:
-        myfig = piplots.gen_figure(plot, obsspace)
+        myfig = piplots.gen_figure(plot)
         myfig.savefig(piutils.get_full_path(plot['outfile']))
 
 if __name__ == '__main__':
