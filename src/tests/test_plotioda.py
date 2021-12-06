@@ -32,4 +32,5 @@ def test_plotioda_full():
             raise ValueError("YAML issue: stats should be true")
         # call the factory and generate the plot based on the config
         myfig = piplots.gen_figure(plot)
-        myfig.savefig(piutils.get_full_path(plot['outfile']))
+        myfig.savefig(piutils.get_full_path(plot['outfile']),
+                      bbox_inches='tight', pad_inches=0.1)
