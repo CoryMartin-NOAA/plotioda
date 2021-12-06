@@ -1,12 +1,12 @@
-ioda file: src/tests/inputs/amsua_aqua_obs_2018041500.nc4
 plots:
 - type: map_scatter
   domain: global
+  ioda file: src/tests/inputs/amsua_aqua_obs_2018041500.nc4
   variable: brightness_temperature
   group: ObsValue
   channel: 3
   stats: true
-  outfile: ./src/tests/amsua_aqua_ch3_obs_global.png
+  outfile: ./amsua_aqua_ch3_obs_global.png
   title: 'AMSU-A Aqua Brightness Temperature Ch. 3'
   cycle string: '2018041500'
   colorbar label: 'brightness temperature (K)'
