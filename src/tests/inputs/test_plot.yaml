@@ -6,6 +6,9 @@ plots:
   group: ObsValue
   channel: 3
   stats: true
+  cmap: 'jet'
+  vmin: 220
+  vmax: 290
   outfile: ./amsua_aqua_ch3_obs_global.png
   titles:
   - string: 'AMSU-A Aqua Brightness Temperature Ch. 3'
