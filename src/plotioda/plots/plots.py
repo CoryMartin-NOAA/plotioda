@@ -50,21 +50,28 @@ def _map_scatter(plot):
 
     # generate data to plot and set plotting attributes
     plotobj = MapScatter(df['latitude'], df['longitude'], df['variable'])
-    for attr in ['cmap', 'vmin', 'vmax']:
+
+    # set defaults for plot if specified in the YAML
+    for attr in dir(plotobj):
         if attr in plot:
             setattr(plotobj, attr, plot[attr])
 
     # draw data on map
     mymap.draw_data([plotobj])
 
-    # add titles, color bar, etc.
-    mymap.add_colorbar(label=plot.get('colorbar label', ''),
-                       label_fontsize=12, extend='neither')
-    mymap.add_title(label=plot.get('title', ''),
-                    loc='left', fontsize=12)
-    mymap.add_title(label=plot.get('cycle string', ''),
-                    loc='right', fontsize=12,
-                    fontweight='semibold')
+    # add colorbar if requested
+    if 'colorbar' in plot:
+        colorbar = plot['colorbar']
+        mymap.add_colorbar(label=colorbar.get('label', ''),
+                           label_fontsize=colorbar.get('fontsize', 12),
+                           extend='neither')
+    if 'titles' in plot:
+        titles = plot['titles']
+        for title in titles:
+            mymap.add_title(label=title.get('string', ''),
+                            loc=title.get('loc', 'left'),
+                            fontsize=title.get('fontsize', 12),
+                            fontweight=title.get('fontweight', 'normal'))
     mymap.add_xlabel(xlabel='Longitude')
     mymap.add_ylabel(ylabel='Latitude')
 
