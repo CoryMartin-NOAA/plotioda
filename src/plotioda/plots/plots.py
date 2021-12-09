@@ -22,11 +22,72 @@ def gen_figure(plot):
     """
     plot_types = {
         'map_scatter': _map_scatter,
+        'scatter': _scatter,
     }
 
     fig = plot_types[plot['type']](plot)
 
     return fig
+
+
+def _scatter(plot):
+    # create a scatter plot
+    # get config for x
+    x = plot['xdim']
+    # get requested data for x
+    iodafile = piutils.get_full_path(x['ioda file'])
+    obsspace = io.IODA(iodafile)
+    df_x = _gen_1d_df(x, obsspace)
+    del obsspace
+
+    # get config for y
+    y = plot['ydim']
+    # get requested data for y
+    iodafile = piutils.get_full_path(y['ioda file'])
+    obsspace = io.IODA(iodafile)
+    df_y = _gen_1d_df(y, obsspace)
+    del obsspace
+
+    # set up figure
+    plotobj = Scatter(df_x['variable'].to_numpy(), df_y['variable'].to_numpy())
+
+    # add options
+    if plot.get('linear regression', False):
+        plotobj.add_linear_regression()
+    if plot.get('density scatter', False):
+        plotobj.density_scatter()
+
+    # set defaults for plot if specified in the YAML
+    for attr in dir(plotobj):
+        if attr in plot:
+            setattr(plotobj, attr, plot[attr])
+
+    # generate plot and draw data
+    myplot = CreatePlot(figsize=(10, 8))
+    myplot.draw_data([plotobj])
+
+    # add features to plot
+    if 'titles' in plot:
+        titles = plot['titles']
+        for title in titles:
+            myplot.add_title(label=title.get('string', ''),
+                             loc=title.get('loc', 'left'),
+                             fontsize=title.get('fontsize', 12),
+                             fontweight=title.get('fontweight', 'normal'))
+    myplot.add_xlabel(xlabel=x.get('label', ''))
+    myplot.add_ylabel(ylabel=y.get('label', ''))
+    if 'grid' in plot and plot['grid']:
+        myplot.add_grid(linewidth=0.5, color='grey', linestyle='--')
+    # add colorbar if requested
+    if 'colorbar' in plot:
+        colorbar = plot['colorbar']
+        myplot.add_colorbar(label=colorbar.get('label', ''),
+                            label_fontsize=colorbar.get('fontsize', 12),
+                            extend='neither')
+    if plot.get('legend', False):
+        myplot.add_legend()
+
+    return myplot.return_figure()
 
 
 def _map_scatter(plot):
@@ -98,6 +159,25 @@ def _gen_map_df(plot, obsspace):
     df_dict = {}
     df_dict['latitude'] = obsspace.get_var('latitude', 'MetaData')
     df_dict['longitude'] = obsspace.get_var('longitude', 'MetaData')
+    data = obsspace.get_var(plot['variable'], plot['group'])
+    if plot['variable'] == 'brightness_temperature' and 'channel' in plot:
+        # this is getting a brightness temperature channel
+        chanCoords = _get_indexed_channels(obsspace)
+        chanIndex = chanCoords.index(plot['channel'])
+        df_dict['variable'] = data[:, chanIndex]
+    else:
+        # just grab the standard variable
+        df_dict['variable'] = data
+    # create the dataframe
+    df = pd.DataFrame(df_dict)
+    df = df.dropna().reset_index()  # remove NaNs
+
+    return df
+
+
+def _gen_1d_df(plot, obsspace):
+    # grab requested variable
+    df_dict = {}
     data = obsspace.get_var(plot['variable'], plot['group'])
     if plot['variable'] == 'brightness_temperature' and 'channel' in plot:
         # this is getting a brightness temperature channel

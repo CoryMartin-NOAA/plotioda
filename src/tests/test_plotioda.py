@@ -20,17 +20,20 @@ def test_plotioda_full():
     # this test assumes only one plot will be generated
     # first make sure the YAML is as expected
     all_plots = config['plots']
-    if len(all_plots) != 1:
-        raise ValueError("YAML issue: total number of all plots != 1")
+    if len(all_plots) != 2:
+        raise ValueError("YAML issue: total number of all plots != 2")
+    iplot = 0
     for plot in all_plots:  # should only be one to loop through
-        # check a few variables, not all
-        if plot['type'] != 'map_scatter':
-            raise ValueError("YAML issue: type should be 'map_scatter'")
-        if plot['channel'] != 3:
-            raise ValueError("YAML issue: channel should be 3")
-        if not plot['stats']:
-            raise ValueError("YAML issue: stats should be true")
+        if iplot == 0:
+            # check a few variables, not all
+            if plot['type'] != 'map_scatter':
+                raise ValueError("YAML issue: type should be 'map_scatter'")
+            if plot['channel'] != 3:
+                raise ValueError("YAML issue: channel should be 3")
+            if not plot['stats']:
+                raise ValueError("YAML issue: stats should be true")
         # call the factory and generate the plot based on the config
         myfig = piplots.gen_figure(plot)
         myfig.savefig(piutils.get_full_path(plot['outfile']),
                       bbox_inches='tight', pad_inches=0.1)
+        iplot += 1
