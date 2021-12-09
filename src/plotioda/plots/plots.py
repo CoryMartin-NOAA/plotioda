@@ -22,11 +22,20 @@ def gen_figure(plot):
     """
     plot_types = {
         'map_scatter': _map_scatter,
+        'scatter': _scatter,
     }
 
     fig = plot_types[plot['type']](plot)
 
     return fig
+
+
+def _scatter(plot):
+    # create a scatter plot
+    # get config for x
+    x = plot['x']
+    # get config for y
+    y = plot['y']
 
 
 def _map_scatter(plot):
