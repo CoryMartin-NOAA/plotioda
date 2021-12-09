@@ -18,19 +18,22 @@ plots:
   colorbar:
     label: 'brightness temperature (K)'
 - type: scatter
-  x:
+  xdim:
     ioda file: src/tests/inputs/amsua_aqua_obs_2018041500.nc4
     variable: brightness_temperature
     group: ObsValue
     channel: 3
     label: 'ObsValue'
-  y:
+  ydim:
     ioda file: src/tests/inputs/amsua_aqua_obs_2018041500.nc4
     variable: brightness_temperature
     group: GsiHofX
     channel: 3
     label: 'GSI H(x)'
   outfile: ./amsua_aqua_ch3_scatter.png
+  legend: true
+  grid: true
+  linear regression: true
   titles:
   - string: 'AMSU-A Aqua Brightness Temperature Ch. 3'
   - string: '2018041500'
